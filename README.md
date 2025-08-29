@@ -136,6 +136,7 @@ free -h
 - Default hostname: `rpi4-YYYYMMDD`
 - Default user: `user`
 - Default password: `user`
+
 Insert the SD card, power up your Pi, and you’re ready to go.
 
 ⚡ Hack responsibly — with great power comes great responsibility.
