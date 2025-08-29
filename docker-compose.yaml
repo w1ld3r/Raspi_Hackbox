@@ -4,7 +4,7 @@ services:
   builder:
     build:
       context: .
-    container_name: raspi_debian_builder
+    container_name: raspi_hackbox
     privileged: true
     deploy:
       resources:
