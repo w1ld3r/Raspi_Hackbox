@@ -1,0 +1,24 @@
+zsh-users/zsh-completions
+marzocchi/zsh-notify
+zsh-users/zsh-autosuggestions
+zdharma/fast-syntax-highlighting
+zsh-users/zsh-history-substring-search
+romkatv/powerlevel10k
+
+# plugin to have ccat, a colorfull cat command
+robbyrussell/oh-my-zsh path:plugins/colorize
+
+# plugin that suggest some package if a command is not found
+robbyrussell/oh-my-zsh path:plugins/command-not-found
+
+# extraction plugin, with command "x" alow to extract any archive
+robbyrussell/oh-my-zsh path:plugins/extract
+
+# plugin to do web search directly in zsh
+robbyrussell/oh-my-zsh path:plugins/web-search
+
+# plugin that install z, a tool to search folder base on frequency
+robbyrussell/oh-my-zsh path:plugins/z
+
+# plugin to have commands: urlencode, urldecode
+robbyrussell/oh-my-zsh path:plugins/urltools

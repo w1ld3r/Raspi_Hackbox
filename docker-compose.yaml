@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  builder:
+    build:
+      context: .
+    container_name: raspi_debian_builder
+    privileged: true
+    deploy:
+      resources:
+        reservations:
+         cpus: '0.50'
+         memory: 4G
+        - /dev:/dev
+    command: rpi4_trixie.img

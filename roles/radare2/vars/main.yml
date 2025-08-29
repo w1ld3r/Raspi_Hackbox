@@ -1,0 +1,10 @@
+---
+
+git_url: "https://github.com/radareorg/radare2.git"
+
+dir_path: "/tmp/radare2"
+
+deps_packages:
+  - build-essential
+  - git
+

@@ -1,0 +1,33 @@
+---
+
+- name: Include variables.
+  ansible.builtin.include_vars: "main.yml"
+
+- name: Install dependencies.
+  ansible.builtin.apt:
+    name: "{{ deps_packages }}"
+    state: present
+    update_cache: yes
+  register: pkg_result
+  until: pkg_result is success
+
+- name: Clone github project.
+  ansible.builtin.git:
+    repo: "{{ git_url }}"
+    dest: "{{ dir_path }}"
+    update: yes
+
+# - name: Get permissions to use /dev/ttyACM0
+#   ansible.builtin.shell: make accessrights
+#   args:
+#     chdir: "{{ dir_path }}"
+
+- name: Build the default target
+  community.general.make:
+    chdir: "{{ dir_path }}"
+
+- name: Run 'install' target
+  community.general.make:
+    chdir: "{{ dir_path }}"
+    target: install
+

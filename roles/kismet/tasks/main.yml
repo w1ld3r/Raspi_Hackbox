@@ -1,0 +1,31 @@
+---
+
+- name: Include variables.
+  ansible.builtin.include_vars: "main.yml"
+
+- name: Install dependencies.
+  ansible.builtin.apt:
+    name: "{{ deps_packages }}"
+    state: present
+    update_cache: yes
+  register: pkg_result
+  until: pkg_result is success
+
+- name: Get kismet GPG key
+  ansible.builtin.shell: |
+    wget -qO - https://www.kismetwireless.net/repos/kismet-release.gpg.key | gpg --dearmor --batch --yes -o /usr/share/keyrings/kismet-archive-keyring.gpg
+
+- name: Add kismet APT source
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=arm64 signed-by=/usr/share/keyrings/kismet-archive-keyring.gpg] https://www.kismetwireless.net/repos/apt/git/trixie trixie main"
+    state: present
+
+- name: Install kismet.
+  ansible.builtin.apt:
+    name: kismet
+    state: present
+    update_cache: yes
+  register: pkg_result
+  until: pkg_result is success
+
+

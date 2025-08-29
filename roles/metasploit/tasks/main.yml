@@ -1,0 +1,27 @@
+---
+
+- name: Include variables.
+  ansible.builtin.include_vars: "main.yml"
+
+- name: Install dependencies.
+  ansible.builtin.apt:
+    name: "{{ deps_packages }}"
+    state: present
+    update_cache: yes
+  register: pkg_result
+  until: pkg_result is success
+
+- name: Download msfinstall
+  uri:
+    url: "{{ msf_url }}"
+    method: GET
+    dest: "{{ installer_path }}/msfinstall"
+    mode: "755"
+  register: result
+  until: result is success
+
+- name: Install Metasploit Framework
+  ansible.builtin.shell: ./msfinstall
+  args:
+    chdir: "{{ installer_path }}"
+

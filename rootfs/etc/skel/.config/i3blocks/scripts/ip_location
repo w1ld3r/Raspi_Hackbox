@@ -1,0 +1,6 @@
+#!/bin/bash
+wanip=$(curl https://ipinfo.io/ip ; echo);
+echo "$wanip" | while read ip; do
+    echo "$ip $(whois "$ip" | awk ' /[Cc]ountry/{print $2}')"
+done
+

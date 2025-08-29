@@ -1,0 +1,10 @@
+---
+
+msf_url: "https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb"
+installer_path: "/tmp"
+
+deps_packages:
+  - libprotobuf-dev 
+  - libprotobuf-c-dev
+  - wget
+  - gpg

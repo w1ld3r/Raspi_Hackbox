@@ -1,0 +1,109 @@
+separator_block_width=0
+separator=false
+markup=pango
+
+[custom-separator]
+full_text=<span foreground="#4c566a" size="large"></span>
+markup=pango
+interval=once
+separator=false
+separator_block_width=0
+
+[time]
+markup=pango
+command=echo "<span background=\"#4c566a\" size=\"large\">  $(date '+%H:%M:%S') </span>"
+interval=1
+separator=false
+separator_block_width=0
+
+[custom-separator]
+full_text=<span background="#4c566a" foreground="#434c5e" size="large"></span>
+markup=pango
+interval=once
+separator=false
+separator_block_width=0
+
+[button-calcurse]
+full_text=<span background="#434c5e" size="large">  </span>
+#command=konsole -e calcurse
+markup=pango
+interval=0
+separator=false
+separator_block_width=0
+
+[date]
+markup=pango
+command=echo "<span background=\"#434c5e\" size=\"large\">$(date '+%d-%m-%Y') </span>"
+interval=1
+separator=false
+separator_block_width=0
+
+[custom-separator]
+full_text=<span background="#434c5e" foreground="#3b4252" size="large"></span>
+markup=pango
+interval=once
+separator=false
+separator_block_width=0
+
+[public-ip]
+command=echo "<span background=\"#3b4252\" size=\"large\">  $(~/.config/i3blocks/scripts/ip_location) </span>"
+markup=pango
+interval=60
+color=#dddddd
+
+[custom-separator]
+full_text=<span background="#3b4252" foreground="#d8dee9" size="large"></span>
+markup=pango
+interval=once
+separator=false
+separator_block_width=0
+
+[cpu]
+markup=pango
+command=echo "<span background=\"#d8dee9\" size=\"large\">$(~/.config/i3blocks/scripts/cpu)</span>"
+interval=2
+separator=false
+separator_block_width=0
+
+[gpu]
+markup=pango
+command=echo "<span background=\"#d8dee9\" size=\"large\">$(~/.config/i3blocks/scripts/gpu)</span>"
+interval=2
+separator=false
+
+[ram]
+markup=pango
+command=echo "<span background=\"#d8dee9\" size=\"large\">$(~/.config/i3blocks/scripts/ram)</span>"
+interval=2
+separator=false
+
+[custom-separator]
+full_text=<span background="#d8dee9" foreground="#2e3440" size="large"></span>
+markup=pango
+interval=once
+separator=false
+separator_block_width=0
+
+[button-volume]
+full_text=<span background="#2e3440" size="large">  </span>
+markup=pango
+command=pavucontrol
+interval=0
+separator=false
+separator_block_width=0
+
+# Volume level and muted information taken from command
+# 'amixer sget Master'.
+[volume]
+command=echo "<span background=\"#2e3440\" size=\"large\">$(~/.config/i3blocks/scripts/volume) </span>"
+interval=1
+min_width=8
+markup=pango
+
+[custom-separator]
+full_text=<span background=""#2e3440 foreground="#000000a0" size="large"></span>
+markup=pango
+interval=once
+separator=false
+separator_block_width=0
+

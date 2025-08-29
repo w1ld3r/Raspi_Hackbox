@@ -1,0 +1,59 @@
+---
+
+- name: Install first row of packages.
+  ansible.builtin.apt:
+    pkg: 
+      - default-jre
+      - dos2unix
+      - dosfstools
+      - python3-scapy
+      - usbutils
+      - pciutils
+      - wireshark
+      - ussp-push
+      - tio
+      - smartmontools
+      - sleuthkit
+      - scapy
+      - rtl-sdr
+      - rtl-433
+      - python3-can
+      - nmap
+      - net-tools
+      - urjtag
+      - openocd
+      - john
+      - hostapd
+      - dnsmasq
+      - hashcat
+      - hackrf
+      - libhackrf-dev
+      - guymager
+      - libatlas3-base
+      - gnuradio
+      - git
+      - flashrom
+      - dirb
+      - can-utils
+      - bluez
+      - binwalk
+      - aircrack-ng
+      - wifite
+      - hydra
+      - dfu-util
+      - gqrx-sdr
+      - bettercap
+      - rtl-433
+    state: present
+    update_cache: yes
+  register: pkg_result
+  until: pkg_result is success
+
+- name: Install second row of packages.
+  ansible.builtin.apt:
+    pkg: 
+      - arduino
+    state: present
+    update_cache: yes
+  register: pkg_result
+  until: pkg_result is success

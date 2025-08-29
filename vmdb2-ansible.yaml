@@ -1,0 +1,16 @@
+---
+- hosts: image
+  roles:
+    - metasploit
+    - radare2
+    - kismet
+    - alacritty
+    - antibody
+    - extra-packages # before urh to support hackrf
+    - rtl8812au
+    - proxmark3
+    - urh
+    - volatility
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+

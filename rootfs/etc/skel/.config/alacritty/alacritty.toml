@@ -1,0 +1,5 @@
+[font]
+normal = { family = "DejaVuSansM Nerd Font Mono", style = "Regular" }
+bold = { family = "DejaVuSansM Nerd Font Mono", style = "Bold" }
+italic = { family = "DejaVuSansM Nerd Font Mono", style = "Italic" }
+bold_italic = { family = "DejaVuSansM Nerd Font Mono", style = "Bold Italic" }

@@ -1,0 +1,12 @@
+---
+
+git_url: "https://github.com/aircrack-ng/rtl8812au.git"
+dir_path: "/tmp/rtl8812au"
+
+deps_packages:
+  - dkms 
+  - bc 
+  - mokutil 
+  - build-essential 
+  - libelf-dev 
+  - linux-headers-arm64

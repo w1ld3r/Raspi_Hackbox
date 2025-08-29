@@ -1,0 +1,23 @@
+#!/bin/bash
+
+RAM_USAGE=$(vmstat -s | { read a b ; read c d ; echo $((100*$c/$a)) ; })
+RAM_ICON=""
+
+if (( $(echo "${RAM_USAGE} > 87" | bc -l) )); then
+    RCOLOR="#bf616a"
+
+elif (( $(echo "${RAM_USAGE} > 63" | bc -l) )); then
+     RCOLOR="#d08770"
+
+elif (( $(echo "${RAM_USAGE} > 38" | bc -l) )); then
+     RCOLOR="#ebcb8b"
+
+elif (( $(echo "${RAM_USAGE} > 13" | bc -l) )); then
+     RCOLOR="#a3be8c"
+
+elif (( $(echo "${RAM_USAGE} < 13" | bc -l) )); then
+     RCOLOR="#b48ead"
+
+fi
+
+echo "<span foreground=\"${RCOLOR}\"> ${RAM_ICON} ${RAM_USAGE}% </span>"

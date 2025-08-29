@@ -1,0 +1,23 @@
+#!/bin/bash
+
+CPU_USAGE=$(top -b -n2 -p 1 | fgrep "Cpu(s)" | tail -1 | awk -F'id,' -v prefix="$prefix" '{ split($1, vs, ","); v=vs[length(vs)]; sub("%", "", v); printf "%s%.1f\n", prefix, 100 - v }')
+CPU_ICON=""
+
+if (( $(echo "${CPU_USAGE} > 87" | bc -l) )); then
+    CPUCOLOR="#bf616a"
+
+elif (( $(echo "${CPU_USAGE} > 63" | bc -l) )); then
+     CPUCOLOR="#d08770"
+
+elif (( $(echo "${CPU_USAGE} > 38" | bc -l) )); then
+     CPUCOLOR="#ebcb8b"
+
+elif (( $(echo "${CPU_USAGE} > 13" | bc -l) )); then
+     CPUCOLOR="#"a3be8c
+
+elif (( $(echo "${CPU_USAGE} < 13" | bc -l) )); then
+     CPUCOLOR="#b48ead"
+
+fi
+
+echo "<span foreground=\"${CPUCOLOR}\"> ${CPU_ICON} ${CPU_USAGE}% </span>"

@@ -1,0 +1,19 @@
+---
+
+git_url: "https://github.com/alacritty/alacritty.git"
+dir_path: "/tmp/alacritty"
+bin_path: "/usr/local/bin/alacritty"
+
+rustup_install_cmd: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+deps_packages:
+  - cmake 
+  - pkg-config 
+  - libfreetype6-dev
+  - libfontconfig1-dev
+  - libxcb-xfixes0-dev
+  - libxkbcommon-dev
+  - python3
+  - git 
+  - curl
+  - desktop-file-utils

@@ -1,0 +1,50 @@
+---
+
+- name: Include variables.
+  ansible.builtin.include_vars: "main.yml"
+
+- name: Install dependencies.
+  ansible.builtin.apt:
+    name: "{{ deps_packages }}"
+    state: present
+    update_cache: yes
+  register: pkg_result
+  until: pkg_result is success
+
+- name: Install Rust
+  ansible.builtin.shell: "{{ rustup_install_cmd }}"
+
+- name: Clone github project.
+  ansible.builtin.git:
+    repo: "{{ git_url }}"
+    dest: "{{ dir_path }}"
+    update: yes
+
+- name: Install alacritty
+  ansible.builtin.shell: /root/.cargo/bin/cargo install --path alacritty
+  args:
+    chdir: "{{ dir_path }}"
+
+- name: Copy alacritty in ususal path
+  ansible.builtin.copy:
+    remote_src: yes  
+    src: "/root/.cargo/bin/alacritty"
+    dest: "{{ bin_path }}"
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Copy alacritty's logo to pixmaps
+  ansible.builtin.copy:
+    remote_src: yes  
+    src: "{{ dir_path }}/extra/logo/alacritty-term.svg"
+    dest: "/usr/share/pixmaps/Alacritty.svg"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Install desktop file
+  ansible.builtin.shell: desktop-file-install extra/linux/Alacritty.desktop && update-desktop-database
+  args:
+    chdir: "{{ dir_path }}"
+

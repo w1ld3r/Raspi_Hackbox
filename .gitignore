@@ -1,0 +1,7 @@
+# suggested build result and log filenames
+rpi4*.bmap
+rpi4*.img
+rpi4*.img.xz
+rpi4*.log
+rpi4*.tar.gz
+rpi4*.sha256

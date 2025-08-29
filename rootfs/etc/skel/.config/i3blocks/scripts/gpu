@@ -1,0 +1,79 @@
+#!/bin/bash
+
+GPU_ICON=""
+
+RES=$(nvidia-settings -q GPUUtilization -t)
+GRAPHICS=$(echo $RES | awk '{print $1}' | grep -Po '\d+')
+MEMORY=$(echo $RES | awk '{print $2}' | grep -Po '\d+')
+VIDEO=$(echo $RES | awk '{print $3}' | grep -Po '\d+')
+PCIE=$(echo $RES | awk '{print $4}' | grep -Po '\d+')
+
+if (( $(echo "${GRAPHICS} > 87" | bc -l) )); then
+    GCOLOR="#bf616a"
+
+elif (( $(echo "${GRAPHICS} > 63" | bc -l) )); then
+    GCOLOR="#d08770"
+
+elif (( $(echo "${GRAPHICS} > 38" | bc -l) )); then
+    GCOLOR="#ebcb8b"
+
+elif (( $(echo "${GRAPHICS} > 13" | bc -l) )); then
+    GCOLOR="#a3be8c"
+
+elif (( $(echo "${GRAPHICS} < 13" | bc -l) )); then
+    GCOLOR="#b48ead"
+
+fi
+
+if (( $(echo "${MEMORY} > 87" | bc -l) )); then
+    MCOLOR="#FF0000"
+
+elif (( $(echo "${MEMORY} > 63" | bc -l) )); then
+    MCOLOR="#FF8800"
+
+elif (( $(echo "${MEMORY} > 38" | bc -l) )); then
+    MCOLOR="#FFFF00"
+
+elif (( $(echo "${MEMORY} > 13" | bc -l) )); then
+    MCOLOR="#55FF00"
+
+elif (( $(echo "${MEMORY} < 13" | bc -l) )); then
+    MCOLOR="#00FF00"
+
+fi
+
+if (( $(echo "${VIDEO} > 87" | bc -l) )); then
+    VCOLOR="#FF0000"
+
+elif (( $(echo "${VIDEO} > 63" | bc -l) )); then
+    VCOLOR="#FF8800"
+
+elif (( $(echo "${VIDEO} > 38" | bc -l) )); then
+    VCOLOR="#FFFF00"
+
+elif (( $(echo "${VIDEO} > 13" | bc -l) )); then
+    VCOLOR="#55FF00"
+
+elif (( $(echo "${VIDEO} < 13" | bc -l) )); then
+    VCOLOR="#00FF00"
+
+fi
+
+if (( $(echo "${PCIE} > 87" | bc -l) )); then
+    PCOLOR="#FF0000"
+
+elif (( $(echo "${PCIE} > 63" | bc -l) )); then
+    PCOLOR="#FF8800"
+
+elif (( $(echo "${PCIE} > 38" | bc -l) )); then
+    PCOLOR="#FFFF00"
+
+elif (( $(echo "${PCIE} > 13" | bc -l) )); then
+    PCOLOR="#55FF00"
+
+elif (( $(echo "${PCIE} < 13" | bc -l) )); then
+    PCOLOR="#00FF00"
+
+fi
+
+echo "<span foreground=\"${GCOLOR}\"> ${GPU_ICON} ${GRAPHICS}% </span>"

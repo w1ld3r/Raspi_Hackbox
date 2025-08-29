@@ -1,0 +1,36 @@
+---
+
+- name: Include variables.
+  ansible.builtin.include_vars: "main.yml"
+
+- name: Install dependencies.
+  ansible.builtin.apt:
+    name: "{{ deps_packages }}"
+    state: present
+    update_cache: yes
+  register: pkg_result
+  until: pkg_result is success
+
+- name: Clone github project.
+  ansible.builtin.git:
+    repo: "{{ vol_git_url }}"
+    dest: "{{ vol_dir_path }}"
+    update: yes
+
+- name: Install volatility.
+  ansible.builtin.pip:
+    name: ".[full]"
+    editable: true
+    chdir: "{{ vol_dir_path }}"
+    virtualenv: "{{ vol_virtualenv }}"
+
+- name: Copy volatility in ususal path
+  ansible.builtin.copy:
+    remote_src: yes  
+    src: "{{ vol_virtualenv }}/bin/vol"
+    dest: "{{ vol_bin_path }}"
+    owner: root
+    group: root
+    mode: '0755'
+    
+    

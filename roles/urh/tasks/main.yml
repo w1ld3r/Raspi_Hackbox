@@ -1,0 +1,33 @@
+---
+
+- name: Include variables.
+  ansible.builtin.include_vars: "main.yml"
+
+- name: Install dependencies.
+  ansible.builtin.apt:
+    name: "{{ deps_packages }}"
+    state: present
+    update_cache: yes
+  register: pkg_result
+  until: pkg_result is success
+
+- name: Install pip dependencies.
+  ansible.builtin.pip:
+    name: "{{ pips_packages }}"
+    virtualenv: "{{ venv }}"
+    virtualenv_site_packages: true
+
+- name: Install urh
+  ansible.builtin.pip:
+    name: "git+{{ git_url }}"
+    virtualenv: "{{ venv }}"
+    virtualenv_site_packages: true
+
+- name: Copy urh in ususal path
+  ansible.builtin.copy:
+    remote_src: yes  
+    src: "{{ venv }}/bin/urh"
+    dest: "{{ bin_path }}"
+    owner: root
+    group: root
+    mode: '0755'

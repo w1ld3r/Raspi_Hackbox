@@ -1,0 +1,35 @@
+---
+
+- name: Include variables.
+  ansible.builtin.include_vars: "main.yml"
+
+- name: Install dependencies.
+  ansible.builtin.apt:
+    name: "{{ deps_packages }}"
+    state: present
+    update_cache: yes
+  register: pkg_result
+  until: pkg_result is success
+
+- name: Clone github project.
+  ansible.builtin.git:
+    repo: "{{ git_url }}"
+    dest: "{{ dir_path }}"
+    update: yes
+
+- name: Set Makefile and dkms.conf to ARM64 platform
+  ansible.builtin.shell: |
+    sed -i 's/CONFIG_PLATFORM_I386_PC = y/CONFIG_PLATFORM_I386_PC = n/g' Makefile
+    sed -i 's/CONFIG_PLATFORM_ARM64_RPI = n/CONFIG_PLATFORM_ARM64_RPI = y/g' Makefile
+    sed -i "s/dkms build/dkms build -k $(ls /lib/modules/ | head -1) --kernelsourcedir \/lib\/modules\/$(ls /lib/modules/ | head -1)\/build/g" Makefile
+    sed -i "s/dkms install/dkms install -k $(ls /lib/modules/ | head -1) --kernelsourcedir \/lib\/modules\/$(ls /lib/modules/ | head -1)\/build/g" Makefile
+    sed -i 's/^MAKE="/MAKE="ARCH=arm64\ /' dkms.conf
+    sed -i "s/\${kernelver}/$(ls /lib/modules/ | head -1)/g" dkms.conf
+  args:
+    chdir: "{{ dir_path }}"
+
+- name: Run 'dkms_install' target
+  community.general.make:
+    chdir: "{{ dir_path }}"
+    target: dkms_install
+
