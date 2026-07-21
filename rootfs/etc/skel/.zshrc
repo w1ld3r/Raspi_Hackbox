@@ -1,8 +1,9 @@
 # Set up the prompt
 
-source <(antibody init)
-
-antibody bundle < ~/.config/zsh/zsh-plugins
+# Zsh plugin manager: antidote (maintained fork of antibody)
+source /usr/share/antidote/antidote.zsh
+antidote bundle < ~/.config/zsh/zsh-plugins > ~/.config/zsh/.zsh_plugins.zsh
+source ~/.config/zsh/.zsh_plugins.zsh
 
 # completion {{{
 #

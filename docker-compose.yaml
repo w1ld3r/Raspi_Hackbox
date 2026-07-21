@@ -5,11 +5,14 @@ services:
     build:
       context: .
     container_name: raspi_hackbox
+    # privileged + /dev are required: vmdb2 needs loop devices, kpartx,
+    # mount/chroot and qemu-user-static binfmt access to build the image.
     privileged: true
+    volumes:
+      - /dev:/dev
     deploy:
       resources:
         reservations:
-         cpus: '0.50'
-         memory: 4G
-        - /dev:/dev
+          cpus: '0.50'
+          memory: 4G
     command: rpi4_trixie.img

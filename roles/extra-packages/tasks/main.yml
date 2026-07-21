@@ -43,7 +43,8 @@
       - dfu-util
       - gqrx-sdr
       - bettercap
-      - rtl-433
+      - alsa-utils
+      - mpc
     state: present
     update_cache: yes
   register: pkg_result

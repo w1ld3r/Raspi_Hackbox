@@ -39,7 +39,7 @@ steps:
 
   - debootstrap: trixie
     require_empty_target: false
-    mirror: http://deb.debian.org/debian/
+    mirror: https://deb.debian.org/debian/
     target: tag-root
     arch: arm64
     components:
@@ -50,9 +50,9 @@ steps:
 
   - create-file: /etc/apt/sources.list
     contents: |+
-      deb http://deb.debian.org/debian/ trixie main non-free-firmware non-free
-      deb http://deb.debian.org/debian/ trixie-updates main non-free-firmware non-free
-      deb http://security.debian.org/debian-security trixie-security main non-free-firmware non-free
+      deb https://deb.debian.org/debian/ trixie main non-free-firmware non-free
+      deb https://deb.debian.org/debian/ trixie-updates main non-free-firmware non-free
+      deb https://security.debian.org/debian-security trixie-security main non-free-firmware non-free
 
     unless: rootfs_unpacked
 
@@ -197,13 +197,6 @@ steps:
     shell: |
       install -m 644 -o root -g root /usr/lib/linux-image-*-arm64/broadcom/bcm*rpi*.dtb /boot/firmware/
 
-  # Clean up archive cache (likely not useful) and lists (likely outdated) to
-  # reduce image size by several hundred megabytes.
-  # - chroot: tag-root
-  #   shell: |
-  #     apt-get clean
-  #     rm -rf /var/lib/apt/lists
-
   # Modify the kernel commandline we take from the firmware to boot from
   # the partition labeled raspiroot instead of forcing it to mmcblk0p2.
   # Also insert the serial console right before the root= parameter.
@@ -254,7 +247,22 @@ steps:
     shell: |
       umount $ROOT/proc
 
-  # Create /etc/raspi-image-id to know, from what commit the image was built
+  # Remove build-time source trees, the Rust toolchain and APT caches to keep
+  # the image small.
+  # NOTE: /tmp/volatility3 and /usr/local/env-* are intentionally kept —
+  # volatility is an editable install pointing at its source tree and both
+  # urh and volatility run from their virtualenvs.
   - chroot: tag-root
     shell: |
-      echo "Build on $(date) by $USERNAME" > "/etc/raspi-image-id"
+      rm -rf /tmp/alacritty /tmp/radare2 /tmp/proxmark3 /tmp/rtl8812au /tmp/msfinstall
+      rm -rf /root/.cargo /root/.rustup
+      apt-get clean
+      rm -rf /var/lib/apt/lists/*
+
+  # Record when and from which git commit the image was built. Runs on the host
+  # (root-fs, not chroot) so it can read the repo's git metadata; falls back to
+  # "unknown" when built without git history (e.g. inside the Docker context).
+  - root-fs: tag-root
+    shell: |
+      commit="$(git rev-parse --short HEAD 2>/dev/null || echo unknown)"
+      echo "Built on $(date -u +%Y-%m-%dT%H:%M:%SZ) from commit ${commit}" > "$ROOT/etc/raspi-image-id"

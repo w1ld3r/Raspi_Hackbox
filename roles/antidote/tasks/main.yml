@@ -1,0 +1,17 @@
+---
+
+- name: Install antidote dependencies.
+  ansible.builtin.apt:
+    name: git
+    state: present
+    update_cache: yes
+  register: pkg_result
+  until: pkg_result is success
+
+- name: Clone antidote (maintained fork of antibody).
+  ansible.builtin.git:
+    repo: "{{ git_url }}"
+    dest: "{{ install_dir }}"
+    depth: 1
+    force: true
+  # version intentionally omitted — track latest

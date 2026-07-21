@@ -1,8 +1,11 @@
+# Image basename to build; override with `make IMG=<name>`.
+IMG ?= rpi4_trixie
+
 all: shasums
 
-shasums: $(addsuffix .img.sha256, $@) $(addsuffix .xz.sha256, $@)
-xzimages: $(addsuffix .xz, $@)
-images: $@
+images: $(IMG).img
+xzimages: $(IMG).img.xz
+shasums: $(IMG).img.sha256 $(IMG).img.xz.sha256
 
 ifeq ($(shell id -u),0)
 as_root =
@@ -30,10 +33,7 @@ endif
 %.img: %.yaml
 	touch $(@:.img=.log)
 	time nice $(as_root) vmdb2 --verbose --rootfs-tarball=$(subst .img,.tar.gz,$@) --output=$@ $(subst .img,.yaml,$@) --log $(subst .img,.log,$@)
-	chmod 0644 $@ $(@,.img=.log)
-
-_ck_root:
-	[ `whoami` = 'root' ] # Only root can summon vmdb2 ☹
+	chmod 0644 $@ $(@:.img=.log)
 
 _clean_images:
 	rm -f rpi4*.img
@@ -49,4 +49,4 @@ _clean_tarballs:
 	rm -f rpi4*.tar.gz
 clean: _clean_xzimages _clean_images _clean_shasums _clean_tarballs _clean_logs _clean_bmaps
 
-.PHONY: _ck_root _build_img clean _clean_images _clean_tarballs _clean_logs
+.PHONY: all images xzimages shasums clean _clean_images _clean_xzimages _clean_bmaps _clean_shasums _clean_logs _clean_tarballs

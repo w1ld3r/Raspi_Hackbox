@@ -1,0 +1,5 @@
+---
+
+# antidote: maintained fork of the (archived) antibody zsh plugin manager.
+git_url: https://github.com/mattmc3/antidote.git
+install_dir: /usr/share/antidote

@@ -1,8 +1,5 @@
 ---
 
-- name: Include variables.
-  ansible.builtin.include_vars: "main.yml"
-
 - name: Install dependencies.
   ansible.builtin.apt:
     name: "{{ deps_packages }}"
@@ -14,6 +11,8 @@
 - name: Get kismet GPG key
   ansible.builtin.shell: |
     wget -qO - https://www.kismetwireless.net/repos/kismet-release.gpg.key | gpg --dearmor --batch --yes -o /usr/share/keyrings/kismet-archive-keyring.gpg
+  args:
+    creates: /usr/share/keyrings/kismet-archive-keyring.gpg
 
 - name: Add kismet APT source
   ansible.builtin.apt_repository:

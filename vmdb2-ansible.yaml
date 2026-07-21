@@ -5,7 +5,7 @@
     - radare2
     - kismet
     - alacritty
-    - antibody
+    - antidote
     - extra-packages # before urh to support hackrf
     - rtl8812au
     - proxmark3

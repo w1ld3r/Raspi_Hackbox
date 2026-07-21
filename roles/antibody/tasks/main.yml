@@ -1,8 +1,0 @@
----
-
-- name: Include variables.
-  ansible.builtin.include_vars: "main.yml"
-
-- name: Install Antibody
-  ansible.builtin.shell: "{{ install_cmd }}"
-

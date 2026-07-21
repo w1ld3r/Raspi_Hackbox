@@ -66,15 +66,18 @@ If you prefer Docker, ensure your container has at least:
 - **8 GB RAM**
 - **60 GB disk space**
 
-Install required packages:
+Install required packages (Docker Engine with the Compose v2 plugin):
 ```bash
-sudo apt install -y binfmt-support qemu-system-common qemu-user-static docker-compose
+sudo apt install -y binfmt-support qemu-system-common qemu-user-static docker.io docker-compose-v2
 ```
 
-Build and run the container:
+Build and run the container (it runs `make rpi4_trixie.img` inside a privileged
+container — `privileged` and the `/dev` mount are required by `vmdb2`):
 ```bash
-sudo docker-compose up -d --build
+sudo docker compose up --build
 ```
+
+The image is written to the repository directory (mounted into the container).
 
 --- 
 
@@ -138,5 +141,11 @@ free -h
 - Default password: `user`
 
 Insert the SD card, power up your Pi, and you’re ready to go.
+
+> ⚠️ **Security:** the image ships with a well-known default password (`user`)
+> for an account with `sudo`, and the SSH server is enabled. Before connecting
+> the Pi to any untrusted network, log in on the console and **change the
+> password immediately** (`passwd`), or disable SSH password authentication and
+> switch to key-based login.
 
 ⚡ Hack responsibly — with great power comes great responsibility.

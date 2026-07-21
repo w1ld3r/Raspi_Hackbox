@@ -1,8 +1,5 @@
 ---
 
-- name: Include variables.
-  ansible.builtin.include_vars: "main.yml"
-
 - name: Install dependencies.
   ansible.builtin.apt:
     name: "{{ deps_packages }}"

@@ -1,8 +1,5 @@
 ---
 
-- name: Include variables.
-  ansible.builtin.include_vars: "main.yml"
-
 - name: Install dependencies.
   ansible.builtin.apt:
     name: "{{ deps_packages }}"
@@ -13,6 +10,8 @@
 
 - name: Install Rust
   ansible.builtin.shell: "{{ rustup_install_cmd }}"
+  args:
+    creates: /root/.cargo/bin/cargo
 
 - name: Clone github project.
   ansible.builtin.git:
@@ -24,6 +23,7 @@
   ansible.builtin.shell: /root/.cargo/bin/cargo install --path alacritty
   args:
     chdir: "{{ dir_path }}"
+    creates: /root/.cargo/bin/alacritty
 
 - name: Copy alacritty in ususal path
   ansible.builtin.copy:
@@ -47,4 +47,5 @@
   ansible.builtin.shell: desktop-file-install extra/linux/Alacritty.desktop && update-desktop-database
   args:
     chdir: "{{ dir_path }}"
+    creates: /usr/share/applications/Alacritty.desktop
 

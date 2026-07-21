@@ -1,8 +1,5 @@
 ---
 
-- name: Include variables.
-  ansible.builtin.include_vars: "main.yml"
-
 - name: Install dependencies.
   ansible.builtin.apt:
     name: "{{ deps_packages }}"
@@ -16,6 +13,9 @@
     repo: "{{ git_url }}"
     dest: "{{ dir_path }}"
     update: yes
+    # Discard the in-place Makefile/dkms.conf edits below on re-runs so the
+    # clone always resets to a clean upstream checkout before re-patching.
+    force: true
 
 - name: Set Makefile and dkms.conf to ARM64 platform
   ansible.builtin.shell: |

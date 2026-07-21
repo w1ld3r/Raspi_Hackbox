@@ -1,3 +1,6 @@
+# local agent tooling / ECC install and reviews
+.claude/
+
 # suggested build result and log filenames
 rpi4*.bmap
 rpi4*.img

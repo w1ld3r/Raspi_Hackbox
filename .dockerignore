@@ -1,0 +1,9 @@
+# Keep VCS history, build artifacts and editor/agent state out of the build context.
+.git
+.gitignore
+.claude
+*.img
+*.img.*
+*.tar.gz
+*.log
+*.bmap

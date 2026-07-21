@@ -1,8 +1,5 @@
 ---
 
-- name: Include variables.
-  ansible.builtin.include_vars: "main.yml"
-
 - name: Install dependencies.
   ansible.builtin.apt:
     name: "{{ deps_packages }}"
@@ -17,10 +14,8 @@
     dest: "{{ dir_path }}"
     update: yes
 
-# - name: Get permissions to use /dev/ttyACM0
-#   ansible.builtin.shell: make accessrights
-#   args:
-#     chdir: "{{ dir_path }}"
+# Device access for /dev/ttyACM0 is handled by the shipped udev rules
+# (rootfs/etc/udev/rules.d/), so 'make accessrights' is intentionally skipped.
 
 - name: Build the default target
   community.general.make:
