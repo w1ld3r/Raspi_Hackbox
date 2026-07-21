@@ -42,11 +42,25 @@ setopt hist_reduce_blanks
 setopt inc_append_history
 # share history between different instances of the shell
 setopt share_history
+# don't record commands prefixed with a space
+setopt hist_ignore_space
+# show the expanded history line before running it
+setopt hist_verify
+# expire duplicate entries first when the history is trimmed
+setopt hist_expire_dups_first
 #
 # }}}
 
 # cd Change directory just by tiping directory if no command exist
 setopt auto_cd
+# allow '#' comments on the interactive command line
+setopt interactivecomments
+# don't error out when a glob matches nothing
+setopt nonomatch
+# sort numeric filenames numerically (file1, file2, file10)
+setopt numericglobsort
+# report background job completion immediately
+setopt notify
 # time before notification
 zstyle ':notify:*' command-complete-timeout 120
 
@@ -112,7 +126,7 @@ alias lt='eza -aT --color=always --group-directories-first' # tree listing
 alias ip='ip -c'
 
 # the new top
-alias top='bashtop'
+alias top='btop'
 # }}}
 
 # export {{{
@@ -145,6 +159,11 @@ export EDITOR=/usr/bin/vim
 #export XDG_DATA_DIRS=$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:/home/op1um/.local/share/flatpak/exports/share
 
 alias vimdiff="nvim -d"
+
+# apt helpers
+alias aptlist="sudo apt update && sudo apt list --upgradable"
+alias aptupdate="sudo apt update && sudo apt full-upgrade -y"
+alias aptclean="sudo apt autoremove && sudo apt autoclean"
 # }}}
 
 # Welcome message {{{
@@ -155,7 +174,24 @@ fastfetch # --ascii "$(cat ~/.fastfetch_logo)" # custom ascii logo fastfetch
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 
+# keybindings {{{
 bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
+bindkey '^U' backward-kill-line
+bindkey ' ' magic-space
+# history-substring-search: arrows search history by the current prefix
+# (the zsh-history-substring-search plugin is loaded via ~/.config/zsh/zsh-plugins)
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+# PageUp / PageDown jump to the ends of the history
+bindkey '^[[5~' beginning-of-buffer-or-history
+bindkey '^[[6~' end-of-buffer-or-history
+# }}}
+
+# fzf: fuzzy history (Ctrl-R), file (Ctrl-T) and cd (Alt-C) widgets {{{
+[[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]] && source /usr/share/doc/fzf/examples/key-bindings.zsh
+[[ -f /usr/share/doc/fzf/examples/completion.zsh ]] && source /usr/share/doc/fzf/examples/completion.zsh
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+# }}}

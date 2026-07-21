@@ -45,6 +45,8 @@
       - bettercap
       - alsa-utils
       - mpc
+      - fzf
+      - btop
     state: present
     update_cache: yes
   register: pkg_result
