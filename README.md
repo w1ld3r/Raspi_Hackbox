@@ -11,6 +11,22 @@ The toolkit is tailored for **IoT**, **OT**, and **automotive hacking**, making 
 
 ---
 
+## 🧰 Included Tools
+
+Beyond the i3 + zsh desktop, the image bundles a curated offensive-security toolkit:
+
+| Category | Tools |
+|----------|-------|
+| **Radio & SDR** | GNU Radio, Gqrx, HackRF, RTL-SDR, `rtl_433`, Universal Radio Hacker (URH) |
+| **Wi-Fi & Bluetooth** | Kismet, Aircrack-ng, Wifite, bettercap, hostapd, dnsmasq, BlueZ, `rtl8812au` monitor/injection driver |
+| **RFID / NFC** | Proxmark3 |
+| **Automotive & hardware** | can-utils, python-can, OpenOCD, UrJTAG, flashrom, dfu-util, Arduino IDE |
+| **Reverse engineering & firmware** | radare2, binwalk |
+| **Forensics** | Volatility 3, The Sleuth Kit, Guymager |
+| **Network, web & cracking** | Nmap, Wireshark, dirb, Hydra, Hashcat, John the Ripper, Scapy |
+
+---
+
 ## 🚀 Building an Image
 
 Clone this repository:
